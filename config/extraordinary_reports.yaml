@@ -1,0 +1,29 @@
+reason_text_element: jpcrp-esr_cor:ReasonForFilingTextBlock   # 提出理由
+excerpt_chars: 160
+# `radar update` keeps the reports of this many days for every FOLLOWED company (top 50 +
+# watchlist), so a company new in the list has its year of history on the card. Already
+# downloaded files come from the raw cache: no network call.
+lookback_days: 365
+
+# Element local-name fragment → reason. Checked in this ORDER (ReverseStockSplit before Split).
+# alert: shown in the daily alerts for followed companies (M&A-relevant); the rest is kept but
+# not alerted (AGM vote results, stock options, covenants … are frequent and rarely about control).
+reasons:
+  - {match: ChangesInMajorShareholder, reason: major_shareholder, label: 主要株主の異動, alert: true}
+  - {match: ChangesInParentCompaniesOrSpecifiedSubsidiaries, reason: parent_or_subsidiary, label: 親会社又は特定子会社の異動, alert: true}
+  - {match: ChangesInRepresentativeDirectors, reason: representative, label: 代表取締役の異動, alert: true}
+  - {match: ReverseStockSplit, reason: share_consolidation, label: 株式併合 (squeeze-out), alert: true}
+  - {match: ShareExchange, reason: share_exchange, label: 株式交換, alert: true}          # not seen yet
+  - {match: CorporateShareholder, reason: shareholder_agreement, label: 株主との合意, alert: true}
+  - {match: Merger, reason: merger, label: 合併, alert: true}
+  - {match: Split, reason: company_split, label: 会社分割, alert: false}
+  - {match: AcquisitionOfSubsidiary, reason: acquisition, label: 子会社取得, alert: false}
+  - {match: ResolutionOfShareholdersMeeting, reason: agm_votes, label: 株主総会の決議, alert: false}
+
+# One element covers both a new PARENT (control changed — often after a tender offer) and a
+# new specified SUBSIDIARY (the company itself bought something). The 提出理由 text tells them
+# apart: 5 of 37 real ones named 親会社 (e.g. after オムロンヘルスケア's tender offer).
+parent_keyword: 親会社
+parent_label: 親会社の異動
+subsidiary_label: 特定子会社の異動
+tender_offer_keyword: 公開買付け

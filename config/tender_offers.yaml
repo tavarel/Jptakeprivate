@@ -1,0 +1,26 @@
+# Tender-offer registration statements (240, form jptoo). Voting rights on the cover page:
+# D = bidder, G = special-interest parties, J = all shareholders; prior stake = (D + G) / J.
+# Event type precedence: mbo (the deal describes itself as one), parent (prior stake >= 20%),
+# else third_party. Take-private = target holding after the offer >= 95%.
+elements:
+  owned_by_bidder: jptoo-ton_cor:NumberNumberOfVotingRightsRepresentedByShareCertificatesEtcOwnedByTenderOfferorD
+  owned_by_related: jptoo-ton_cor:NumberNumberOfVotingRightsRepresentedByShareCertificatesEtcOwnedBySpecialInterestPartiesG
+  all_voting_rights: jptoo-ton_cor:NumberNumberOfVotingRightsOwnedByAllShareholdersEtcOfSubjectCompanyJ
+  ratio_after: jptoo-ton_cor:HoldingRatioOfShareCertificatesEtcAfterPurchaseEtc
+  price_text: jptoo-ton_cor:PriceOfPurchaseEtcTextBlock     # 「株券１株につき金7,600円…」
+  purpose_text: jptoo-ton_cor:PurposesOfPurchaseEtcTextBlock
+
+mbo_pattern: (本公開買付け|本取引)[^。]{0,60}マネジメント・バイアウト
+# The same sentence very often says the deal is NOT an MBO (seen on real 2024–2026 filings:
+# 「本取引は、いわゆるマネジメント・バイアウト(MBO)取引にも該当いたしません」). Without this list 145
+# of 310 offers were typed "mbo". Checked within the matched sentence (up to 。).
+mbo_negations:
+  - 該当いたしません
+  - 該当しません
+  - 該当せず
+  - 該当するものではな
+  - 該当しない
+  - ではありません
+  - ではございません
+parent_min_prior_stake: 0.20
+take_private_min_ratio_after: 0.95

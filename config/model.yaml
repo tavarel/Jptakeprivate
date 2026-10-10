@@ -1,0 +1,75 @@
+# Logistic regression. Train on as_of <= train_end, test on as_of >= test_start; the gap must be
+# at least the label horizon (365 days) so training labels never overlap the test period.
+train_end: 2023-12-31
+test_start: 2025-01-01
+
+# Numeric features from the feature table. Missing values are imputed with the TRAINING median
+# AND flagged by an indicator column, so "missing" is a signal of its own, never a silent 0.
+# Not used: capital_plan_disclosed (only known from 2025-10: all missing in training).
+features:
+  - oldest_representative_age
+  - family_stake
+  - pbr
+  - net_cash_to_market_cap
+  - investment_securities_to_market_cap
+  - officer_stake
+  - price_change_12m
+  - turnover
+  - tradable_share_ratio
+  - listing_criteria_margin
+  - largest_listed_holder_stake
+  - parent_prior_offers
+  - parent_other_holdings
+  - top10_concentration_ex_custodian
+  - activist_filers_365d
+  - years_below_book
+  - net_cash_change_to_market_cap
+  - pbr_sector_percentile
+  - net_cash_sector_percentile
+  - adjusted_pbr
+  - parent_pbr
+  - parent_net_cash_to_market_cap
+  - parent_activist_filers_365d
+  - new_5pct_holders_90d
+  - listed_holder_stake_change
+  - top10_change
+# Heavy-tailed sizes enter as log10 (≤ 0 → missing).
+log_features:
+  - market_cap_jpy
+  - median_trading_value_jpy
+# market_segment → one 0/1 column per listed segment (Prime is the reference).
+segments:
+  - Standard
+  - Growth
+# Inverse regularisation strength: small = strong shrinkage (few events, many features).
+C: 0.1
+event_types: [mbo, parent, third_party]
+reliability_bins: 10
+
+walk_forward:
+  first_test: 2024-03-31
+  min_wins: 5            # beats v0 on lift in at least this many of the test dates
+  tie: 0.1               # mean-lift margin under which the simpler candidate wins
+  simplicity: [v0, v2, v2_by_type, logistic_by_type, hybrid, expected_value]
+  rule_weights_C: 1.0    # L2 strength of the learned rule weights (set beforehand, not tuned)
+  bootstrap_draws: 200   # `radar weight-stability`: resamples of whole dates (diagnostic only)
+  bootstrap_seed: 42
+
+returns:
+  top_n: 25              # main metric: top-25 return minus the all-companies mean
+  min_wins: 5            # beats the value basket on at least this many of the 7 dates
+  tie: 0.01              # ...and by at least 1 pp on the mean, else the simpler one stays
+  simplicity: [value_basket, v0, hybrid, v2, return_model]
+  ridge_alpha: 10.0      # return model strength (set beforehand, not tuned)
+  target_clip: 0.01      # winsorize training targets at 1% / 99%
+  small_portfolios: [10, 15, 25, 50, 100, 200]
+  round2:
+    simplicity: [value_basket, value_basket_quality, return_model_sector_neutral]
+    min_operating_yield: 0.0   # quality basket: operating income / market cap must be > this
+  round3:
+    simplicity: [value_basket, value_momentum, value_catalyst]
+    momentum_worst_share: 0.10   # value_momentum: drop the worst 10% of 12-1 momentum
+value_basket:            # the simple yardstick (thresholds of the v0 rules)
+  max_market_cap: 30000000000
+  max_pbr: 1.0
+  min_net_cash: 0.30

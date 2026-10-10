@@ -1,0 +1,8 @@
+# Companies you always want to follow (alerts and the "watchlist only" filter in the dashboard).
+# code: the 4-character securities code as on the exchange (9647, 130A); note: free text.
+watchlist:
+  - code: "9647"
+    note: 協和コンサルタンツ — #1 on 2026-09-01; holder フリージア・マクロス never bid since 2024
+
+# Alerts (`radar changes`, `radar update`) cover the top N of the latest screening plus the list.
+alert_top_n: 50

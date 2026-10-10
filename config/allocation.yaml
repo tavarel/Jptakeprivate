@@ -1,0 +1,11 @@
+kelly_multiplier: 0.3333   # one-third Kelly: full Kelly assumes μ and σ are known exactly
+risk_free: 0.005           # annual cash return the basket must beat (BOJ policy rate ~0.5%)
+max_invested: 1.0          # never more than the capital (no leverage)
+max_weight: 0.08           # per position, fraction of capital (≥ 12–13 names for a top 25)
+participation: 0.10        # at most 10% of a day's median trading value (market impact)
+max_days: 5                # days allowed to build or exit a position
+lot_size: 100              # 単元株: TSE trading unit since 2018
+min_dates: 5               # fewer walk-forward dates → no Kelly estimate
+kelly_on: excess           # excess (vs all companies) | cash
+confidence_z: 1.0
+nw_lags: 3                 # quarterly dates, 12-month holding → 3 overlapping neighbours

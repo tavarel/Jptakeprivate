@@ -1,0 +1,43 @@
+excerpt_max_chars: 1200     # each 有報 excerpt is cut here (the link gives the full text)
+recent_filings: 8           # latest 5% reports / offers / opinions about the company to list
+factpack_new_top: 20        # `radar update`: fact pack for each company new in this top N
+unusual_trading:
+  short_sessions: 5         # the last week
+  long_sessions: 60         # vs the usual of the last ~3 months
+  volume_ratio: 3.0         # median trading value ≥ 3× the usual
+  excess_move: 0.10         # or a ±10% move vs TOPIX in that week
+coverage_drift:             # broken data, not the market: warn when known values drop
+  max_drop: 0.05
+  columns: [pbr, market_cap_jpy, family_stake, largest_listed_holder_stake,
+            oldest_representative_age, net_cash_to_market_cap, activist_filers_365d,
+            median_trading_value_jpy, p_any]
+retention:                  # `radar update` deletes older DERIVED marts (rebuildable from raw)
+  features_days: 14         # features_<date>: scores_<date> keeps the same columns
+  factpack_days: 180        # factpack_<date>_<code>.md: rebuild any with `radar factpack`
+
+portfolio:
+  ruleset: scoring_v0       # walk-forward marts to read (walk_forward_picks_<ruleset>)
+  # Walk-forward ranking → column of today's screen (scores_<date>) that ranks the same way.
+  # null = no live version (only a backtest history). Listed in the order the tab offers them.
+  models:
+    value_basket: value_basket
+    value_basket_quality: value_basket_quality
+    value_momentum: value_momentum
+    value_catalyst: value_catalyst
+    combo_v2_mbo: combo_v2_mbo
+    v0: score_v0
+    v2: score
+    v2_by_type: null
+    hybrid: null
+    logistic_by_type: p_any_prior   # the validated order (p_any is isotonic: ties at the top)
+    expected_value: expected_value
+    return_model: return_model
+    return_model_sector_neutral: return_model_sector_neutral
+  lenses:
+    return:                 # robust return: the mean without the luckiest date
+      metric: mean_excess_without_best
+      tie_break: std_excess
+    risk:                   # least bad worst date
+      metric: worst_excess
+      tie_break: std_excess
+  default_capital: 10000000   # yen, only a starting value for the input box

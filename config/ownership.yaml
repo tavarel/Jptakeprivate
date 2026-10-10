@@ -1,0 +1,45 @@
+# Holder types of the top-10 shareholders. Lists are checked IN ORDER and the first substring
+# match wins (日本マスタートラスト信託銀行 must be a custodian before 銀行 makes it a financial).
+# Unmatched holders are a company or a person; a company is listed when its name matches a filer
+# known before as_of.
+holder_types:
+  treasury:
+    - 自己株
+  employee_plan:            # 従業員持株会 / 社員持株会 / 取引先持株会
+    - 持株会
+  custodian:                # nominee accounts: the economic owner is unknown
+    - 信託口
+    - カストディ
+    - 常任代理人             # foreign holders registered via a standing proxy
+    - 信託銀行
+    - MASTER TRUST
+    - STATE STREET
+    - JP MORGAN
+    - BNY
+    - ステート ストリート
+  foundation:               # often founder-linked (known blind spot of the family signal)
+    - 財団
+    - 社団法人
+  financial:                # banks, insurers, brokers, funds: cross-holdings (持ち合い) or investors
+    - 銀行
+    - 生命保険
+    - 損害保険
+    - 海上火災
+    - 証券
+    - 信用金庫
+    - 投資事業
+    - ファンド
+    - FUND
+
+# A holder with at least this stake in a company counts that company in its "portfolio": used to
+# tell a parent that buys out subsidiaries from an investor holding stakes in many listed firms
+# (フリージア・マクロス: 47.5% / 35.4% / 18.9% in three small listed companies, no offer since 2021).
+portfolio_min_stake: 0.20
+
+# Rule thresholds live in config/scoring_v*.yaml; this file only classifies.
+
+# Homonyms of listed companies, checked by hand: a holder with this name whose address contains
+# `address_contains` is NOT the listed company.
+homonyms:
+  - name: 株式会社平和堂          # founder's company of クリップコーポレーション, not 平和堂 (8276, 彦根市)
+    address_contains: 名古屋市

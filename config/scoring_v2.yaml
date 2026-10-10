@@ -1,0 +1,66 @@
+version: 2
+rules:
+- id: aging_leader
+  feature: oldest_representative_age
+  op: '>='
+  threshold: 70
+  weight: -0.24
+  rationale: 'A representative director aged 70+ creates succession pressure. [Weight learned from data:
+    -0.24 (hand-set v0: 2).]'
+- id: family_control
+  feature: family_stake
+  op: '>='
+  threshold: 0.3
+  weight: 0.13
+  rationale: 'A founding family with 30%+ can anchor an MBO and block hostile outcomes. [Weight learned
+    from data: +0.13 (hand-set v0: 2).]'
+- id: listed_parent
+  feature: largest_listed_holder_stake
+  op: '>='
+  threshold: 0.2
+  weight: 1.38
+  rationale: 'A listed parent (親子上場) with 20%+ is the natural buyer; parents buying out listed subsidiaries
+    drove many 2025 take-privates. 20% (equity-method line), not 30%: トヨタ自動車 held 24.6% of 豊田自動織機. [Weight learned from data: +1.38 (hand-set v0: 2).]'
+- id: activist_holder
+  feature: activist_filers_365d
+  op: '>='
+  threshold: 1
+  weight: 0.77
+  rationale: 'An activist filed a 5% report in the last year (config/activists.yaml). Activists push for
+    buybacks, asset sales or a sale of the company; a take-private is a common way out. [Weight learned
+    from data: +0.77 (hand-set v0: 1.5).]'
+- id: below_book
+  feature: pbr
+  op: <
+  threshold: 1.0
+  weight: 0.08
+  rationale: 'TSE pressure on sub-1x PBR companies since March 2023. [Weight learned from data: +0.08
+    (hand-set v0: 1.5).]'
+- id: cash_rich
+  feature: net_cash_to_market_cap
+  op: '>='
+  threshold: 0.3
+  weight: 0.24
+  rationale: 'Excess cash makes a buyout self-financing and attracts activists. [Weight learned from data:
+    +0.24 (hand-set v0: 1.5).]'
+- id: small_cap
+  feature: market_cap_jpy
+  op: <=
+  threshold: 30000000000
+  weight: 0.29
+  rationale: 'Buyouts under ~JPY 30bn are easy to finance with bank debt. [Weight learned from data: +0.29
+    (hand-set v0: 1).]'
+- id: standard_market
+  feature: market_segment
+  op: ==
+  threshold: Standard
+  weight: 0.14
+  rationale: 'Standard-market companies face the strongest listing-maintenance pressure. [Weight learned
+    from data: +0.14 (hand-set v0: 0.5).]'
+- id: no_capital_plan
+  feature: capital_plan_disclosed
+  op: ==
+  threshold: false
+  weight: 0.0
+  rationale: 'Not publishing a capital-efficiency plan may signal that staying listed is not the priority.
+    [Weight learned from data: +0.00 (hand-set v0: 0.5).]'

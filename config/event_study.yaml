@@ -1,0 +1,20 @@
+runup_sessions: 60            # leakage window: the 60 sessions before the announcement
+max_stale_days: 10            # a "last close" older than this (suspension) is not a reference price
+# Last close within this of (or above) the offer price: the deal was already public
+# (pre-announced or contested), so it is left out of premium and run-up statistics.
+pre_announced_tolerance: 0.03
+runup_short_sessions: 10      # a run-up concentrated just before the news (quarterly results and
+runup_review_threshold: 0.10  # list offers whose market-adjusted run-up exceeded +10%
+volume_recent_sessions: 20    # trading value just before the announcement …
+volume_baseline_sessions: 120 # … versus its median over the preceding 120 sessions
+# A run-up after an EARLIER public offer on the same target (bidding war, revised bid) is public
+# information, not leakage: such offers are marked and kept apart in the review.
+competing_bid_days: 180
+
+# Likely offer price for a candidate (card / fact pack): quantiles of the premium and of the
+# offer PBR paid in past take-privates of its likely buyer type. A range, not a forecast.
+offer_range_quantiles: [0.25, 0.5, 0.75]
+offer_range_min_offers: 10   # fewer comparable offers → no range shown
+# The book anchor uses offers for targets in the company's own PBR band (offer PBR follows the
+# target's PBR: median 0.68× below 0.6, 1.13× at 0.6–1, 1.60× at 1–1.5, 2.87× at 1.5–3, 6.2× above).
+offer_pbr_bands: [0.6, 1.0, 1.5, 3.0]

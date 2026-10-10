@@ -1,0 +1,13 @@
+# Fiscal years back for years_below_book (prices start 2021-10: early dates give a floor).
+years: 3
+
+# Sector percentiles need at least this many companies with a value.
+sector_min_peers: 5
+
+# Adjusted PBR (rental real estate at fair value, 賃貸等不動産の時価). The unrealized gain is taxed
+# at the Japanese effective corporate tax rate before it is added to net assets.
+rental_tax_rate: 0.3062
+# Fair value ÷ book value outside these bounds is treated as a misread note (no guess).
+rental_ratio_bounds: [0.2, 50.0]
+
+new_holder_window_days: 90

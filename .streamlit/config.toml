@@ -1,0 +1,19 @@
+# Streamlit settings for `make app` (project-level, read when run from the repo root).
+[browser]
+gatherUsageStats = false   # no telemetry
+
+[server]
+headless = true            # no e-mail prompt, no auto-opened browser: open the printed URL
+
+[client]
+toolbarMode = "minimal"    # no developer menu or deploy button: a tool, not a demo
+
+[theme]
+# Streamlit's light theme made explicit, so the app looks the same everywhere (the slide deck
+# in docs/ uses the same colours).
+base = "light"
+primaryColor = "#FF4B4B"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F0F2F6"
+textColor = "#31333F"
+font = "sans serif"

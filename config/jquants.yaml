@@ -1,0 +1,8 @@
+requests_per_minute: 50
+
+# Market segment names (MktNm) → the English names used in config/scoring_v0.yaml.
+# Names not listed here (e.g. TOKYO PRO MARKET, その他) are kept as they are.
+segment_names:
+  プライム: Prime
+  スタンダード: Standard
+  グロース: Growth

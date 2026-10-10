@@ -1,0 +1,114 @@
+# XBRL element IDs (要素ID column of the EDINET type=5 CSV). Each key maps to a list: the first
+# ID present in a filing wins.
+
+officers:
+  name:
+    - jpcrp_cor:NameInformationAboutDirectorsAndCorporateAuditors
+  title:
+    - jpcrp_cor:OfficialTitleOrPositionInformationAboutDirectorsAndCorporateAuditors
+  date_of_birth:
+    - jpcrp_cor:DateOfBirthInformationAboutDirectorsAndCorporateAuditors
+  shares_held:
+    - jpcrp_cor:NumberOfSharesHeldOrdinarySharesInformationAboutDirectorsAndCorporateAuditors
+  text_block_fallback:
+    - jpcrp_cor:InformationAboutOfficersTextBlock
+
+# Executive officers (執行役) of companies with nominating committees (指名委員会等設置会社),
+# where the representative is a 代表執行役 listed here, not in the director table. Despite the
+# "ExecutiveDirectors" in the IDs these are 執行役. A person in both tables shares one context.
+executive_officers:
+  name:
+    - jpcrp_cor:NameInformationAboutExecutiveDirectors
+  title:
+    - jpcrp_cor:OfficialTitleOrPositionInformationAboutExecutiveDirectors
+  date_of_birth:
+    - jpcrp_cor:DateOfBirthInformationAboutExecutiveDirectors
+  shares_held:
+    - jpcrp_cor:NumberOfSharesHeldOrdinarySharesInformationAboutExecutiveDirectors
+
+# Director NOMINEES for the AGM held after the filing (…Proposal). Used ONLY when the current
+# tables have no representative director: re-elected directors (often the president) then appear
+# only here (seen: セキチュー FY2025/26, where the current table held just audit-committee members).
+officers_proposal:
+  name:
+    - jpcrp_cor:NameInformationAboutDirectorsAndCorporateAuditorsProposal
+  title:
+    - jpcrp_cor:OfficialTitleOrPositionInformationAboutDirectorsAndCorporateAuditorsProposal
+  date_of_birth:
+    - jpcrp_cor:DateOfBirthInformationAboutDirectorsAndCorporateAuditorsProposal
+  shares_held:
+    - jpcrp_cor:NumberOfSharesHeldOrdinarySharesInformationAboutDirectorsAndCorporateAuditorsProposal
+
+major_shareholders:
+  name:
+    - jpcrp_cor:NameMajorShareholders
+  shares_held:
+    - jpcrp_cor:NumberOfSharesHeld
+  ratio:
+    - jpcrp_cor:ShareholdingRatio
+  address:
+    - jpcrp_cor:AddressMajorShareholders
+  text_block_fallback:
+    - jpcrp_cor:MajorShareholdersTextBlock
+
+dei:
+  accounting_standard: jpdei_cor:AccountingStandardsDEI
+  jgaap_value: Japan GAAP
+  consolidated: jpdei_cor:WhetherConsolidatedFinancialStatementsArePreparedDEI
+  hq_address: jpcrp_cor:AddressOfRegisteredHeadquarterCoverPage
+
+financials:
+  cash_and_deposits:
+    - jppfs_cor:CashAndDeposits
+  short_term_securities:
+    - jppfs_cor:ShortTermInvestmentSecurities
+  investment_securities:
+    - jppfs_cor:InvestmentSecurities
+  short_term_loans:
+    - jppfs_cor:ShortTermLoansPayable
+  current_portion_long_term_loans:
+    - jppfs_cor:CurrentPortionOfLongTermLoansPayable
+  long_term_loans:
+    - jppfs_cor:LongTermLoansPayable
+  bonds:
+    - jppfs_cor:BondsPayable
+  current_portion_bonds:
+    - jppfs_cor:CurrentPortionOfBonds
+  net_assets:
+    - jppfs_cor:NetAssets
+  operating_income:
+    - jppfs_cor:OperatingIncome
+
+per_share:
+  dividend_per_share:        # 1株当たり配当額 (yen)
+    - jpcrp_cor:DividendPaidPerShareSummaryOfBusinessResults
+
+shares:
+  issued:
+    - jpcrp_cor:NumberOfIssuedSharesAsOfFiscalYearEndIssuedSharesTotalNumberOfSharesEtc
+    - jpcrp_cor:TotalNumberOfIssuedSharesSummaryOfBusinessResults
+  # Issued shares ON THE FILING DATE. Differs from `issued` (fiscal year end) when a split
+  # happened in between (ドリーム・アーツ FY2025: 4,054,600 → 12,163,800 after a 1:3 split). The
+  # officers' holdings are stated as of the filing date, so their stake must use this count.
+  issued_at_filing:
+    - jpcrp_cor:NumberOfIssuedSharesAsOfFilingDateIssuedSharesTotalNumberOfSharesEtc
+  treasury:
+    - jpcrp_cor:TotalNumberOfSharesHeldTreasurySharesEtc
+
+# Context IDs. Consolidated figures are preferred; non-consolidated is the fallback
+# (companies without subsidiaries only file non-consolidated statements).
+contexts:
+  filing_date_common_shares: FilingDateInstant_OrdinaryShareMember  # share table, common shares
+  instant_consolidated: CurrentYearInstant
+  instant_non_consolidated: CurrentYearInstant_NonConsolidatedMember
+  duration_consolidated: CurrentYearDuration
+  duration_non_consolidated: CurrentYearDuration_NonConsolidatedMember
+
+excerpts:
+  business: jpcrp_cor:DescriptionOfBusinessTextBlock                 # 事業の内容
+  main_customers: jpcrp_cor:InformationForEachOfMainCustomersTextBlock  # 主要な顧客ごとの情報 (≥10% of sales)
+  revenue_by_region: jpcrp_cor:RevenuesFromExternalCustomersInformationForEachRegionTextBlock
+
+rental_note:
+  - jpcrp_cor:NotesRealEstateForLeaseEtcConsolidatedFinancialStatementsTextBlock
+  - jpcrp_cor:NotesRealEstateForLeaseEtcFinancialStatementsTextBlock

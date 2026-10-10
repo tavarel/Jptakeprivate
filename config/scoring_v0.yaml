@@ -1,0 +1,71 @@
+# Hand-set rule score (baseline). op: >= <= > < == !=. A rule whose feature is missing is not
+# triggered. Thresholds are hypotheses tested by the backtest.
+version: 0
+rules:
+  - id: aging_leader
+    feature: oldest_representative_age
+    op: ">="
+    threshold: 70
+    weight: 2.0
+    rationale: A representative director aged 70+ creates succession pressure.
+
+  - id: family_control
+    feature: family_stake
+    op: ">="
+    threshold: 0.30
+    weight: 2.0
+    rationale: A founding family with 30%+ can anchor an MBO and block hostile outcomes.
+
+  - id: listed_parent
+    feature: largest_listed_holder_stake
+    op: ">="
+    threshold: 0.20
+    weight: 2.0
+    rationale: >-
+      A listed parent (親子上場) with 20%+ is the natural buyer; parents buying out listed
+      subsidiaries drove many 2025 take-privates. 20% (equity-method line), not 30%: トヨタ自動車
+      held 24.6% of 豊田自動織機.
+
+  - id: activist_holder
+    feature: activist_filers_365d
+    op: ">="
+    threshold: 1
+    weight: 1.5
+    rationale: >-
+      An activist filed a 5% report in the last year (config/activists.yaml). Activists push for
+      buybacks, asset sales or a sale of the company; a take-private is a common way out.
+
+  - id: below_book
+    feature: pbr
+    op: "<"
+    threshold: 1.0
+    weight: 1.5
+    rationale: TSE pressure on sub-1x PBR companies since March 2023.
+
+  - id: cash_rich
+    feature: net_cash_to_market_cap
+    op: ">="
+    threshold: 0.30
+    weight: 1.5
+    rationale: Excess cash makes a buyout self-financing and attracts activists.
+
+  - id: small_cap
+    feature: market_cap_jpy
+    op: "<="
+    threshold: 30000000000
+    weight: 1.0
+    rationale: Buyouts under ~JPY 30bn are easy to finance with bank debt.
+
+  - id: standard_market
+    feature: market_segment
+    op: "=="
+    threshold: Standard
+    weight: 0.5
+    rationale: Standard-market companies face the strongest listing-maintenance pressure.
+
+  - id: no_capital_plan
+    feature: capital_plan_disclosed
+    op: "=="
+    threshold: false
+    weight: 0.5
+    rationale: Not publishing a capital-efficiency plan may signal that staying listed is not the priority.

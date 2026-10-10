@@ -1,0 +1,18 @@
+horizon_days: 365          # label window (as_of, as_of + horizon]: became a tender-offer target?
+precision_at: [20, 50]     # precision@k for these k
+top_fraction: 0.10         # recall / lift measured in the top 10% of scores
+points_bands: 6
+track_record_top_n: 50     # Backtest tab: past top-N names that later received an offer
+pick_sizes: [10, 15, 25, 50, 100, 200]
+pick_stale_days: 10            # a price older than this is not a buy price / means the stock left
+max_daily_price_ratio: 3.0     # a one-day move beyond ×3 / ÷3 (after split adjustment) is a data error (値幅制限)
+
+# Round-trip trading cost (commission, spread, impact) by median daily trading value.
+cost_tiers:
+  - {max_trading_value: 10000000, cost: 0.02}     # < ¥10m/day: 2.0%
+  - {max_trading_value: 100000000, cost: 0.01}    # < ¥100m/day: 1.0%
+  - {max_trading_value: null, cost: 0.004}        # above: 0.4%
+style_buckets: 5         # style benchmark: size × PBR quintiles within each date
+inference:
+  nw_lags: 3             # quarterly dates, 12-month holding → each overlaps its 3 neighbours
+  ci_z: 1.645            # 90% confidence interval

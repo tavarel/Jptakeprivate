@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="300" viewBox="0 0 780 300" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Lift of the top 10% per screening date">
+<line x1="48" x2="708" y1="236.0" y2="236.0" stroke="#9ca3af" stroke-opacity="0.25"/>
+<text x="40" y="240.0" font-size="11" fill="#6b7280" text-anchor="end">0×</text>
+<line x1="48" x2="708" y1="176.6" y2="176.6" stroke="#9ca3af" stroke-opacity="0.25"/>
+<text x="40" y="180.6" font-size="11" fill="#6b7280" text-anchor="end">1×</text>
+<line x1="48" x2="708" y1="117.1" y2="117.1" stroke="#9ca3af" stroke-opacity="0.25"/>
+<text x="40" y="121.1" font-size="11" fill="#6b7280" text-anchor="end">2×</text>
+<line x1="48" x2="708" y1="57.7" y2="57.7" stroke="#9ca3af" stroke-opacity="0.25"/>
+<text x="40" y="61.7" font-size="11" fill="#6b7280" text-anchor="end">3×</text>
+<path d="M56.6,236.0 V56.2 Q56.6,52.2 60.6,52.2 H76.6 Q80.6,52.2 80.6,56.2 V236.0 Z" fill="#2a78d6"><title>2022-09-30: lift 3.09×, 42 targets</title></path>
+<text x="68.6" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">22-09</text>
+<path d="M97.9,236.0 V110.3 Q97.9,106.3 101.9,106.3 H117.9 Q121.9,106.3 121.9,110.3 V236.0 Z" fill="#2a78d6"><title>2022-12-31: lift 2.18×, 55 targets</title></path>
+<text x="109.9" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">22-12</text>
+<path d="M139.1,236.0 V137.6 Q139.1,133.6 143.1,133.6 H159.1 Q163.1,133.6 163.1,137.6 V236.0 Z" fill="#2a78d6"><title>2023-03-31: lift 1.72×, 58 targets</title></path>
+<text x="151.1" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">23-03</text>
+<path d="M180.4,236.0 V145.4 Q180.4,141.4 184.4,141.4 H200.4 Q204.4,141.4 204.4,145.4 V236.0 Z" fill="#2a78d6"><title>2023-06-30: lift 1.59×, 69 targets</title></path>
+<text x="192.4" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">23-06</text>
+<path d="M221.6,236.0 V109.8 Q221.6,105.8 225.6,105.8 H241.6 Q245.6,105.8 245.6,109.8 V236.0 Z" fill="#2a78d6"><title>2023-09-30: lift 2.19×, 73 targets</title></path>
+<text x="233.6" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">23-09</text>
+<path d="M262.9,236.0 V165.8 Q262.9,161.8 266.9,161.8 H282.9 Q286.9,161.8 286.9,165.8 V236.0 Z" fill="#2a78d6"><title>2023-12-31: lift 1.25×, 72 targets</title></path>
+<text x="274.9" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">23-12</text>
+<path d="M304.1,236.0 V164.9 Q304.1,160.9 308.1,160.9 H324.1 Q328.1,160.9 328.1,164.9 V236.0 Z" fill="#2a78d6"><title>2024-03-31: lift 1.26×, 87 targets</title></path>
+<text x="316.1" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">24-03</text>
+<path d="M345.4,236.0 V162.6 Q345.4,158.6 349.4,158.6 H365.4 Q369.4,158.6 369.4,162.6 V236.0 Z" fill="#2a78d6"><title>2024-06-30: lift 1.30×, 92 targets</title></path>
+<text x="357.4" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">24-06</text>
+<path d="M386.6,236.0 V161.5 Q386.6,157.5 390.6,157.5 H406.6 Q410.6,157.5 410.6,161.5 V236.0 Z" fill="#2a78d6"><title>2024-09-30: lift 1.32×, 106 targets</title></path>
+<text x="398.6" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">24-09</text>
+<path d="M427.9,236.0 V180.1 Q427.9,176.1 431.9,176.1 H447.9 Q451.9,176.1 451.9,180.1 V236.0 Z" fill="#2a78d6"><title>2024-12-31: lift 1.01×, 109 targets</title></path>
+<text x="439.9" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">24-12</text>
+<path d="M469.1,236.0 V160.1 Q469.1,156.1 473.1,156.1 H489.1 Q493.1,156.1 493.1,160.1 V236.0 Z" fill="#2a78d6"><title>2025-03-31: lift 1.34×, 104 targets</title></path>
+<text x="481.1" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">25-03</text>
+<path d="M510.4,236.0 V141.0 Q510.4,137.0 514.4,137.0 H530.4 Q534.4,137.0 534.4,141.0 V236.0 Z" fill="#2a78d6"><title>2025-06-30: lift 1.67×, 102 targets</title></path>
+<text x="522.4" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">25-06</text>
+<path d="M551.6,236.0 V154.3 Q551.6,150.3 555.6,150.3 H571.6 Q575.6,150.3 575.6,154.3 V236.0 Z" fill="#2a78d6"><title>2025-09-30: lift 1.44×, 90 targets</title></path>
+<text x="563.6" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">25-09</text>
+<path d="M592.9,236.0 V183.5 Q592.9,179.5 596.9,179.5 H612.9 Q616.9,179.5 616.9,183.5 V236.0 Z" fill="#a9c8ee"><title>2025-12-31: lift 0.95×, 63 targets (window not complete)</title></path>
+<text x="604.9" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">25-12</text>
+<path d="M634.1,236.0 V159.8 Q634.1,155.8 638.1,155.8 H654.1 Q658.1,155.8 658.1,159.8 V236.0 Z" fill="#a9c8ee"><title>2026-03-31: lift 1.35×, 37 targets (window not complete)</title></path>
+<text x="646.1" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">26-03</text>
+<path d="M675.4,236.0 V165.9 Q675.4,161.9 679.4,161.9 H695.4 Q699.4,161.9 699.4,165.9 V236.0 Z" fill="#a9c8ee"><title>2026-06-30: lift 1.25×, 16 targets (window not complete)</title></path>
+<text x="687.4" y="252.0" font-size="10.5" fill="#6b7280" text-anchor="middle">26-06</text>
+<line x1="48" x2="708" y1="176.6" y2="176.6" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="716" y="180.6" font-size="11" fill="#6b7280">chance</text>
+<text x="48" y="18" font-size="12" fill="#6b7280">Mean of complete dates: 1.64×  ·  lighter bars: 12-month window not complete yet</text>
+<text x="48" y="286" font-size="11" fill="#9ca3af">Screening date (quarter-end, yy-mm). Lift = take-private rate in the top 10% of scores ÷ rate of all listed companies.</text>
+</svg>

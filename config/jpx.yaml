@@ -1,0 +1,15 @@
+# The 2023 TSE capital-efficiency request covers Prime and Standard only: for other segments
+# capital_plan_disclosed is unknown, never False.
+requested_segments: [Prime, Standard]
+
+# TSE listing-maintenance criteria for tradable shares (流通株式), per segment: minimum tradable
+# share ratio (流通株式比率) and minimum tradable market value (流通株式時価総額, yen).
+# Failing them is a documented reason for take-privates on the Standard market.
+tradable_criteria:
+  Prime: {ratio: 0.35, value: 10000000000}
+  Standard: {ratio: 0.25, value: 1000000000}
+  Growth: {ratio: 0.25, value: 500000000}
+# Holders at or above this stake are excluded from tradable shares (with officers and treasury
+# shares). The TSE also excludes cross-holdings by banks, insurers and companies, which cannot be
+# identified from the top-10 list, so our tradable ratio is an UPPER bound.
+tradable_major_holder: 0.10

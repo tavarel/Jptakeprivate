@@ -1,0 +1,75 @@
+# Activist investors: a 5% report (350) whose FILER name contains one of these substrings counts.
+# Matching is by substring on NFKC-normalised, upper-cased names; never add bare surnames.
+# `{name: X, since: YEAR}` counts a fund only from the year its activism became public (avoids
+# look-ahead in the backtest); a bare name counts on every date.
+activist_filers:
+  - シティインデックスイレブンス      # Murakami group
+  - 南青山不動産                      # Murakami group
+  - エスグラントコーポレーション      # Murakami group
+  - オフィスサポート                  # Murakami group
+  - 野村 絢                           # Murakami family
+  - 村上 世彰
+  - 株式会社レノ                      # Murakami group (would also match 株式会社レノバ)
+  - エフィッシモ
+  - EFFISSIMO
+  - ストラテジックキャピタル
+  - NIPPON ACTIVE VALUE FUND
+  - 3D INVESTMENT PARTNERS
+  - ダルトン
+  - DALTON
+  - アセット・バリュー・インベスターズ
+  - ASSET VALUE INVESTORS
+  - オアシス
+  - OASIS MANAGEMENT
+  - エリオット
+  - ELLIOTT
+  - VALUEACT
+  - バリューアクト
+  - ひびき・パース
+  - タイヨウ・パシフィック
+  - タイヨウ・ファンド                # same manager as タイヨウ・パシフィック
+  - LONG CORRIDOR
+  - ファー・イースト・キャピタル
+  - LIM ADVISORS
+  - リム・アドバイザーズ
+  - {name: パリサー, since: 2023}     # public campaign from Oct 2023 (Keisei)
+  - {name: PALLISER, since: 2023}
+  - {name: アリアケ・マスター, since: 2024}  # not bare アリアケ: would match アリアケジャパン
+  - {name: MIRI CAPITAL, since: 2024}
+  - {name: UGSアセットマネジメント, since: 2024}
+  - {name: 植島 幹九郎, since: 2023}
+  - {name: DOE5パーセント, since: 2025}
+
+# Discovery of new candidates from initial 5% reports that declare 重要提案行為 in 保有目的.
+# Candidates are reviewed by hand, never added automatically.
+discovery:
+  purpose_element: jplvh_cor:PurposeOfHolding
+  proposal_keyword: 重要提案行為
+  # The keyword inside a negated sentence (up to 。) does not count.
+  negations:
+    - 予定しておりません
+    - 予定していません
+    - 予定はない
+    - 予定はありません
+    - 予定もない
+    - 行わない
+    - 行いません
+    - 意図はない
+    - 意図しておりません
+    - 目的としない
+    - 目的としておりません
+    - 目的とはしていない
+    - 該当しない
+  # Not activism although the keyword is there: squeeze-outs after a tender offer and partners.
+  excluded_markers:
+    - 非公開化
+    - 完全子会社
+    - 株式の併合
+    - 株式併合
+    - 第179条
+    - 第180条
+    - 売渡請求
+    - シナジー
+    - 資本業務提携
+    - 業務提携
+    - 政策投資        # corporate strategic holding, not activism
