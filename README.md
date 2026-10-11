@@ -1,45 +1,65 @@
 # Japan take-private radar
 
+[![CI](https://github.com/tavarel/Jptakeprivate/actions/workflows/ci.yml/badge.svg)](https://github.com/tavarel/Jptakeprivate/actions/workflows/ci.yml)
+
 **Which Japanese listed companies are most likely to be taken private next — and why?**
 
 Japan had a record 112 take-private tender offers and MBOs in 2025, driven by Tokyo Stock Exchange
-pressure on capital efficiency and by ageing founder-owners without successors. This project
-builds an explainable, **point-in-time** screen of ~3,900 listed companies from public filings, and
-measures it honestly against the deals that actually happened.
+pressure on capital efficiency, the unwinding of listed subsidiaries (親子上場) and ageing
+founder-owners. This project screens ~4,200 listed companies every day from public filings,
+explains each ranking with the facts behind it, and measures itself honestly against the deals
+that actually happened.
 
 > Research project. Not investment advice.
 
+![Dashboard: daily screen](docs/img/dashboard_screen.png)
+
 ## What it does
 
-1. **Ingests** every filing from EDINET (Japan's FSA disclosure system) and market data from
-   J-Quants (JPX's official API).
-2. **Parses** annual reports into tidy tables: officers (with birth dates), top-10 shareholders,
-   balance sheet.
-3. **Builds signals** as of any date, using only information public before that date:
-   age of the representative directors, founding-family stake, PBR, net cash vs. market cap,
-   market segment, capital-efficiency plan disclosure.
-4. **Scores** companies with transparent rules (v0) and later a logistic model (v1).
-5. **Backtests** against every real third-party tender offer filed on EDINET:
-   *of the companies that received an offer, how many were in our top decile a year before?*
+1. **Ingests** every EDINET filing (annual reports, 5% reports, tender offers, 臨時報告書) and
+   daily prices from J-Quants, JPX's official API.
+2. **Parses** annual reports into tidy tables: officers with ages, top-10 shareholders by type,
+   balance sheet, dividends, rental real estate at fair value.
+3. **Builds point-in-time features** for any date: listed parent and its track record, family
+   stake, activists, valuation, cash, liquidity, tradable shares, trends — using only what was
+   public before that date.
+4. **Ranks** companies two ways, because deals differ: *Offer likelihood* (rules with weights
+   learned from 13 quarters; strongest on parent buyouts) and *MBO likelihood* (a per-type model).
+5. **Alerts** on followed companies: new 5% holders and activists, tender offers, control changes
+   in 臨時報告書 (new parent, major shareholder, squeeze-out), unusual trading, broken data.
+6. **Explains** every company on one card — signals, fundamentals, ownership, filings and a
+   likely offer price range from comparable past deals.
+7. **Evaluates** every ranking walk-forward and keeps a live scoreboard of rankings frozen daily.
 
-## Results (backtest, 2022-09 → 2025-09)
+![Company card](docs/img/dashboard_card.png)
 
-**Across 13 quarterly screenings, the hand-set rules put 1.76× more future take-private targets
-in their top 10% than chance** (offers already public on the screening date excluded). Learning
-the same rules' weights from data and testing walk-forward on 7 later dates — each predicted by
-weights fitted only on data a year older — raised that to **2.29×, beating the hand-set weights
-on 7 of 7 dates**; it is now the default ranking.
+## Results (13 quarterly screenings, 2022-09 → 2025-09)
+
+About **1.8%** of listed companies receive a take-private offer within a year.
+
+| Ranking (top 10% of the list) | Lift vs chance | Parent buyouts | MBOs |
+|---|---|---|---|
+| **Offer likelihood** (learned weights, walk-forward on 7 unseen dates) | **2.2×** | **4.4×** | 0.3× |
+| Hand-set rules (baseline) | 1.4× | 1.3× | 1.7× |
+| Logistic models per deal type (MBO list) | 1.9× | 2.3× | **1.9×** |
+
+Hand-set rules on every quarter-end (lift of the top 10%):
 
 ![Lift of the top 10% per screening date](docs/img/lift_by_date.svg)
 
-- **One signal carries most of it**: a listed parent holding ≥ 20% (親子上場), then an activist.
-- **Who gets an offer ≠ what makes money.** The learned ranking finds parent buyouts, which pay
-  the lowest premiums; as a portfolio, the hand-set rules' top 25 did better (+7 pp a year over
-  all listed companies, price only). Both are tracked live from 2026-10-09.
-- Candidates that did not help were removed, the decision rule was written before the test, and
-  the losers are reported.
+- **One signal carries most of it**: a listed company holding ≥ 20% (親子上場), then activists.
+  The learned ranking beat the hand-set one on 7 of 7 unseen dates; the decision rule was written
+  down before the test.
+- **Who gets an offer ≠ what makes money.** The offer premium lands on a few names; a
+  portfolio's return comes from the rest. As a portfolio, a simple value basket (small, below
+  book, cash-rich) beat all listed companies on 6 of 7 dates; no ranking beat it by the
+  pre-registered rule, and no strategy reaches 95% "chance of skill" after counting every try.
+- **Seven overlapping test dates are weak evidence.** Every ranking is frozen daily and judged on
+  the offers that come later — the only clean test.
 
 Details, every candidate and every limitation: [docs/results.md](docs/results.md).
+
+![Evidence tab](docs/img/dashboard_evidence.png)
 
 ## Architecture
 
@@ -136,19 +156,20 @@ offline tests. What remains is time: the live scoreboard is the out-of-sample te
   one day. Tests enforce this ([tests/test_features.py](tests/test_features.py)).
 - **Family detection is a heuristic** (shared surname with the representative director, or family
   asset-management companies). It misses relatives with different surnames.
-- **IFRS filers** use different XBRL elements and are flagged, not yet parsed.
+- **IFRS filers** use different XBRL elements: their balance-sheet items are left missing.
 - **Event date = filing of the tender offer (240)**, not the announcement (TDnet, paid); a
   pre-announced offer can be public earlier.
-- **The activist list is curated today** and applied to the past: a look-ahead risk for that one
-  rule. Homonymous company names are excluded only when checked by hand.
+- **The activist list is curated by hand**, with the year each fund's activism became public, to
+  limit look-ahead. Homonymous company names are excluded only when checked by hand.
 - **EDINET hides filings older than ~5 years**, so the backtest starts in 2022-09.
-- **Rare-event evaluation**: accuracy is meaningless with a ~1–3% base rate; we report
-  precision@k, recall in the top decile and lift.
+- **Rare-event evaluation**: accuracy is meaningless with a ~1.8% base rate; we report lift,
+  precision@k and recall in the top decile, with Newey-West intervals and a deflated Sharpe ratio
+  for portfolios.
 
 ## Tech
 
 Python 3.12 · pandas · DuckDB · Parquet · httpx · pydantic · Typer · pytest · ruff · mypy (strict) ·
-GitHub Actions · Streamlit
+scikit-learn · Altair · Streamlit · GitHub Actions
 
 ## License
 

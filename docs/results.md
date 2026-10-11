@@ -1,4 +1,4 @@
-# Results — backtest of the take-private radar (2026-10-09)
+# Results — backtest of the take-private radar (updated 2026-10-10)
 
 Everything below is reproducible with:
 
@@ -8,7 +8,27 @@ uv run radar ablation
 uv run radar backtest --start 2022-09-30 --end 2026-06-30 --rules scoring_v1
 uv run radar ablation --rules scoring_v1
 uv run radar model                                                   # logistic vs v0
+uv run radar walkforward                                             # walk-forward choices
+uv run radar weight-stability                                        # bootstrap of v2 weights
 ```
+
+`make refit` runs the whole sequence on the newest complete data.
+
+## Summary (current numbers)
+
+| | Value |
+|---|---|
+| Base rate: listed companies taken private within 12 months | 1.8% |
+| Hand-set rules, lift of the top 10%, 13 complete dates | 1.69× |
+| Learned weights (v2, default), walk-forward lift on 7 unseen dates | **2.22×** (7 / 7 wins) |
+| v2 on parent buyouts / on MBOs | 4.4× / 0.3× |
+| Per-type logistic models on MBOs | 1.9× |
+| Portfolio default (pre-registered return rule) | value basket — beat all listed companies on 6 / 7 dates |
+| Strategies with ≥ 95% "chance of skill" (deflated Sharpe, 72 tried) | none |
+| Capacity of the small-cap strategies | ¥5–16m |
+
+The sections below are in the order the work was done: each decision rule is written before
+its result. Later sections update earlier numbers (label hygiene, the dated activist list).
 
 ## Setup
 

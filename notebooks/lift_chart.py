@@ -91,6 +91,7 @@ def chart(metrics: pd.DataFrame) -> str:
 if __name__ == "__main__":
     marts = get_settings().marts_dir
     metrics = pd.read_parquet(marts / "backtest_metrics_scoring_v0.parquet")
+    metrics = metrics[metrics["lift_top"].notna()]  # a date with no target yet has no lift
     path = Path("docs/img/lift_by_date.svg")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(chart(metrics), encoding="utf-8")
